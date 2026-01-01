@@ -27,5 +27,11 @@ This app may be detected by some anti-cheat systems. **Use at your own risk.**
 
 ---
 
+## Discord
+Join my Discord for more updates, info, and just for fun!  
+[Discord Invite Link](https://discord.gg/4vmBRUe78r)
+
+---
+
 ## License
 This project is licensed under the **MIT License**.
