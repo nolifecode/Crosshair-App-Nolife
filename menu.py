@@ -1,12 +1,12 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QApplication
 from PyQt5.QtCore import Qt
 
-
 class MenuWindow(QWidget):
-    def __init__(self, settings, visual):
+    def __init__(self, settings, visual, spotify):
         super().__init__()
         self.settings = settings
         self.visual = visual
+        self.spotify = spotify
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setFixedSize(200, 280)
@@ -56,3 +56,4 @@ class MenuWindow(QWidget):
         self.container.setStyleSheet(style)
         self.settings.container.setStyleSheet(style)
         self.visual.container.setStyleSheet(style)
+        self.spotify.container.setStyleSheet(style)
