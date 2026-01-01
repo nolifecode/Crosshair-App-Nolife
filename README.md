@@ -8,7 +8,7 @@ This app may be detected by some anti-cheat systems. **Use at your own risk.**
 ---
 
 ## Required
-pip install pyqt5 keyboard
+pip install PyQt5 pynput psutil pywin32
 
 ---
 
