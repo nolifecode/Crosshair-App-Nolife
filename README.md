@@ -1,5 +1,7 @@
 # Crosshair-App-Nolife
 
+<img src="https://i.imgur.com/ABCDEFG.png" width="400"/>
+
 ## ⚠️ Warning
 This app may be detected by some anti-cheat systems. **Use at your own risk.**
 
