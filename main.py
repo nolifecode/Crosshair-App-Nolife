@@ -4,11 +4,11 @@ from PyQt5.QtWidgets import QApplication, QLabel, QWidget
 from PyQt5.QtCore import Qt, QSequentialAnimationGroup, QPropertyAnimation, QPauseAnimation, pyqtSignal, QObject
 from PyQt5.QtGui import QPixmap, QColor
 
-
 from crosshair import Crosshair
 from settings import SettingsWindow
 from visual import VisualWindow
 from menu import MenuWindow
+from spotify import SpotifyWindow
 
 class HotkeySignal(QObject):
     toggle_menu = pyqtSignal()
@@ -25,11 +25,12 @@ class OverlayApp:
         keyboard.add_hotkey('f1', lambda: self.signals.toggle_cross.emit())
 
         self.crosshair = Crosshair()
+        self.spotify = SpotifyWindow()
         self.settings = SettingsWindow(self.crosshair)
         self.visual = VisualWindow(self.crosshair)
-        self.menu = MenuWindow(self.settings, self.visual)
+        self.menu = MenuWindow(self.settings, self.visual, self.spotify)
 
-        self.settings.hide(); self.visual.hide(); self.menu.hide()
+        self.settings.hide(); self.visual.hide(); self.menu.hide(); self.spotify.hide()
         self.setup_splash()
 
     def setup_splash(self):
@@ -51,6 +52,7 @@ class OverlayApp:
         self.menu.setVisible(vis)
         self.settings.setVisible(vis)
         self.visual.setVisible(vis)
+        self.spotify.setVisible(vis)
 
     def run(self):
         self.splash.show()
