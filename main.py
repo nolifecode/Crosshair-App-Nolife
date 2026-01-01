@@ -1,14 +1,16 @@
 import sys
-import keyboard
+import os
 from PyQt5.QtWidgets import QApplication, QLabel, QWidget
 from PyQt5.QtCore import Qt, QSequentialAnimationGroup, QPropertyAnimation, QPauseAnimation, pyqtSignal, QObject
 from PyQt5.QtGui import QPixmap, QColor
+from pynput import keyboard
 
 from crosshair import Crosshair
 from settings import SettingsWindow
 from visual import VisualWindow
 from menu import MenuWindow
 from spotify import SpotifyWindow
+from profiles import ProfilesWindow
 
 class HotkeySignal(QObject):
     toggle_menu = pyqtSignal()
@@ -21,25 +23,44 @@ class OverlayApp:
         self.signals.toggle_menu.connect(self.toggle_all)
         self.signals.toggle_cross.connect(self.toggle_c)
 
-        keyboard.add_hotkey('insert', lambda: self.signals.toggle_menu.emit())
-        keyboard.add_hotkey('f1', lambda: self.signals.toggle_cross.emit())
+        self.listener = keyboard.Listener(on_press=self.on_press)
+        self.listener.start()
 
         self.crosshair = Crosshair()
         self.spotify = SpotifyWindow()
+        self.profiles = ProfilesWindow(self.crosshair)
         self.settings = SettingsWindow(self.crosshair)
         self.visual = VisualWindow(self.crosshair)
-        self.menu = MenuWindow(self.settings, self.visual, self.spotify)
+        
+        self.menu = MenuWindow(self.settings, self.visual, self.spotify, self.profiles)
 
-        self.settings.hide(); self.visual.hide(); self.menu.hide(); self.spotify.hide()
+        self.settings.hide()
+        self.visual.hide()
+        self.menu.hide()
+        self.spotify.hide()
+        self.profiles.hide()
+        
         self.setup_splash()
+
+    def on_press(self, key):
+        try:
+            if key == keyboard.Key.insert:
+                self.signals.toggle_menu.emit()
+            elif key == keyboard.Key.f1:
+                self.signals.toggle_cross.emit()
+        except AttributeError:
+            pass
 
     def setup_splash(self):
         self.splash = QWidget()
-        self.splash.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
+        self.splash.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool | Qt.WindowTransparentForInput)
         self.splash.setAttribute(Qt.WA_TranslucentBackground)
         px = QPixmap("loading.png")
-        if px.isNull(): px = QPixmap(400, 300); px.fill(QColor(5, 5, 5))
-        lbl = QLabel(self.splash); lbl.setPixmap(px)
+        if px.isNull(): 
+            px = QPixmap(400, 300)
+            px.fill(QColor(5, 5, 5))
+        lbl = QLabel(self.splash)
+        lbl.setPixmap(px)
         self.splash.resize(px.width(), px.height())
         sc = self.app.primaryScreen().geometry()
         self.splash.move((sc.width()-px.width())//2, (sc.height()-px.height())//2)
@@ -52,7 +73,12 @@ class OverlayApp:
         self.menu.setVisible(vis)
         self.settings.setVisible(vis)
         self.visual.setVisible(vis)
-        self.spotify.setVisible(vis)
+        self.profiles.setVisible(vis)
+        
+        if vis and "ON" in self.menu.btn_spotify.text():
+            self.spotify.show()
+        else:
+            self.spotify.hide()
 
     def run(self):
         self.splash.show()
@@ -64,6 +90,7 @@ class OverlayApp:
         f_out = QPropertyAnimation(self.splash, b"windowOpacity")
         f_out.setDuration(400); f_out.setStartValue(1); f_out.setEndValue(0)
         seq.addAnimation(f_out)
+        
         seq.finished.connect(lambda: (self.splash.close(), self.crosshair.show()))
         seq.start()
         sys.exit(self.app.exec_())
