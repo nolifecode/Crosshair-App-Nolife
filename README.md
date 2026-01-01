@@ -1,6 +1,6 @@
 # Crosshair-App-Nolife
 
-<img src="https://media.discordapp.net/attachments/1454565435738558496/1456381168285913088/Zrzut_ekranu_2026-01-01_211425.png?ex=69582828&is=6956d6a8&hm=534b3bbb46597cd2737525d6604f7f9fb6123e7e80d6bd7acbf5b0839a0eab3b&=&format=webp&quality=lossless&width=1489&height=837" width="400"/>
+<img src="https://media.discordapp.net/attachments/1437186490722418828/1456421192994132212/image.png?ex=69584d6f&is=6956fbef&hm=a2d6d7d9aecd69dc74c294689219260199b0699d2c3e9d3351c610fc1d5ffe9f&=&format=webp&quality=lossless&width=1642&height=922" width="400"/>
 
 ## ⚠️ Warning
 This app may be detected by some anti-cheat systems. **Use at your own risk.**
