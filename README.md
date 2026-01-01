@@ -7,6 +7,11 @@ This app may be detected by some anti-cheat systems. **Use at your own risk.**
 
 ---
 
+## Required
+pip install pyqt5 keyboard
+
+---
+
 ## How to use
 1. Open the app  
 2. Press **Insert** to toggle the overlay  
